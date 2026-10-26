@@ -1,12 +1,7 @@
 #!/system/bin/sh
-# minsos-tab-s7-smooth: service.sh
-# KernelSU / Magisk Boot Optimization Script
+# 99-smooth-performance.sh
+# MinsOS Galaxy Tab S7 (T870) Ultimate Smoothness & 120Hz Lock Optimization
 # Author: iridite
-
-# Wait until boot completes
-until [ "$(getprop sys.boot_completed)" = "1" ]; do
-    sleep 2
-done
 
 # 1. Lock 120Hz display refresh rate (prevent unwanted 60Hz drop)
 settings put system min_refresh_rate 120.0
@@ -41,6 +36,9 @@ if which "$RP" >/dev/null 2>&1 || [ -x "$RP" ]; then
 
     # Disable RAM Plus (virtual memory zram thrashing)
     $RP persist.sys.zram.ram_expand_size 0
+
+    # Expand ART initial heap start size to prevent startup GC thrashing
+    $RP dalvik.vm.heapstartsize 16m
 fi
 
 # 3. CPU Governor (Schedutil) - 4x faster frequency ramp-up on touch
@@ -70,12 +68,21 @@ for q in /sys/block/sd*/queue/read_ahead_kb; do
     fi
 done
 
-# 6. Memory Swappiness (Prioritize physical RAM over heavy ZRAM swap)
+# 6. Memory & Kernel VFS Tuning
 if [ -f /proc/sys/vm/swappiness ]; then
     echo 60 > /proc/sys/vm/swappiness
 fi
+if [ -f /proc/sys/vm/vfs_cache_pressure ]; then
+    echo 50 > /proc/sys/vm/vfs_cache_pressure
+fi
 
-# 7. Animation scales & Touch Sensitivity
+# 7. TCP Westwood+ for Lossy Wi-Fi & Wi-Fi Low Latency
+if [ -f /proc/sys/net/ipv4/tcp_congestion_control ]; then
+    echo westwood > /proc/sys/net/ipv4/tcp_congestion_control
+fi
+cmd wifi set-power-save-mode 0 >/dev/null 2>&1
+
+# 8. Animation scales & Touch Sensitivity
 settings put global window_animation_scale 1.0
 settings put global transition_animation_scale 1.0
 settings put global animator_duration_scale 1.0

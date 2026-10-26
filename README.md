@@ -35,6 +35,27 @@
 > 详尽的原始日志已归档在 [`evidence/`](evidence/) 目录下，对应排查已提交至上游：[minsos1/MinsOS Issue #2](https://gitlab.com/minsos1/MinsOS/-/issues/2)。
 
 ---
+## 模块核心调优特性 (Features)
+
+1. **高刷新率与显示合成**：
+   - 强制锁定物理 120Hz，消除触控/下拉瞬间的 60Hz 阶跃降频；
+   - 纠正 `debug.sf.early_app_phase_offset_ns` 从 0.1ms 至 **1.5ms**，消灭因极窄偏置导致的严重跳帧；
+   - 启用原生 GPU Kawase Window Blur，释放 CPU 软件降采样开销。
+2. **CPU 与内核调度**：
+   - Schedutil 调速器升频延迟由 2000µs 缩短至 **500µs**（触控提速 4 倍）；
+   - 大核（CPU 4-6）最低保底 **1.05 GHz**，超大核（CPU 7）最低保底 **1.07 GHz**，消除低频休眠唤醒抖动；
+   - Adreno 650 GPU 基础频率提升至 **400 MHz**。
+3. **内存管理与 ART 运行时**：
+   - 调整 `dalvik.vm.heapstartsize=16m`，消除大屏高分应用冷启动时的连环并发 GC 暂停；
+   - 降低 `vfs_cache_pressure=50`，在 6GB/8GB 充裕内存下长效常驻文件系统元数据索引；
+   - 关闭三星 RAM Plus 虚拟内存，`swappiness=60`，消除 ZRAM 压缩解压争抢。
+4. **网络与触控低延迟**：
+   - TCP 拥塞算法切换为 **Westwood+**，专为无线 Wi-Fi 偶发丢包场景优化流媒体吞吐；
+   - 关闭 Wi-Fi 网卡硬件休眠轮询（`set-power-save-mode 0`），维持低延迟握手；
+   - 启用三星屏幕高灵敏度触控报点率（`high_touch_sensitivity 1`）。
+
+---
+
 
 ## 快速安装与使用
 
