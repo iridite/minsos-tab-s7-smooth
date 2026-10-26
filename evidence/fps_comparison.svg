@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; fill: #64748b; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #334155; }
+      .sublabel { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #64748b; }
+      .val-before { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #ef4444; }
+      .val-after { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #10b981; }
+      .budget-line { stroke: #3b82f6; stroke-dasharray: 4,4; stroke-width: 1.5; }
+      .budget-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #3b82f6; font-weight: 600; }
+    </style>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="820" height="380" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="32" y="42" class="title">Galaxy Tab S7 (T870) MinOS 下拉通知栏掉帧优化实测对比</text>
+  <text x="32" y="66" class="subtitle">实测工具: dumpsys gfxinfo com.android.systemui | 物理屏幕: 120Hz (帧预算 8.33ms)</text>
+
+  <!-- Legend -->
+  <rect x="580" y="32" width="14" height="14" rx="3" fill="#ef4444"/>
+  <text x="602" y="44" class="sublabel">优化前 (Default)</text>
+  <rect x="700" y="32" width="14" height="14" rx="3" fill="#10b981"/>
+  <text x="722" y="44" class="sublabel">优化后 (Fixed)</text>
+
+  <!-- Item 1: Janky Frames Rate -->
+  <g transform="translate(32, 100)">
+    <text x="0" y="16" class="label">掉帧率 (Janky Frames)</text>
+    <text x="0" y="34" class="sublabel">超出垂直同步 Deadline 比例</text>
+    <!-- Before bar: 29.55% -> 295px -->
+    <rect x="230" y="4" width="295" height="18" rx="4" fill="#ef4444" opacity="0.9"/>
+    <text x="535" y="18" class="val-before">29.55%</text>
+    <!-- After bar: 15.73% -> 157px -->
+    <rect x="230" y="26" width="157" height="18" rx="4" fill="#10b981"/>
+    <text x="397" y="40" class="val-after">15.73% (-47%)</text>
+  </g>
+
+  <!-- Item 2: 50th percentile (Median frame time) -->
+  <g transform="translate(32, 165)">
+    <text x="0" y="16" class="label">中位单帧耗时 (P50)</text>
+    <text x="0" y="34" class="sublabel">50% 的帧处理速度</text>
+    <!-- Before bar: 9ms -> 180px -->
+    <rect x="230" y="4" width="180" height="18" rx="4" fill="#ef4444" opacity="0.9"/>
+    <text x="420" y="18" class="val-before">9.0 ms (超标)</text>
+    <!-- After bar: 6ms -> 120px -->
+    <rect x="230" y="26" width="120" height="18" rx="4" fill="#10b981"/>
+    <text x="360" y="40" class="val-after">6.0 ms (达标)</text>
+    <!-- 8.33ms budget line at 230 + 166.6 = 396.6 -->
+    <line x1="396.6" y1="-5" x2="396.6" y2="55" class="budget-line"/>
+    <text x="402" y="52" class="budget-text">120Hz 极限预算 8.33ms</text>
+  </g>
+
+  <!-- Item 3: 95th percentile -->
+  <g transform="translate(32, 235)">
+    <text x="0" y="16" class="label">高负载帧耗时 (P95)</text>
+    <text x="0" y="34" class="sublabel">较卡顿瞬间的耗时表现</text>
+    <!-- Before bar: 46ms -> 368px -->
+    <rect x="230" y="4" width="368" height="18" rx="4" fill="#ef4444" opacity="0.9"/>
+    <text x="608" y="18" class="val-before">46.0 ms</text>
+    <!-- After bar: 31ms -> 248px -->
+    <rect x="230" y="26" width="248" height="18" rx="4" fill="#10b981"/>
+    <text x="488" y="40" class="val-after">31.0 ms (-32%)</text>
+  </g>
+
+  <!-- Item 4: 99th percentile (Worst hitch) -->
+  <g transform="translate(32, 305)">
+    <text x="0" y="16" class="label">极端长冻结耗时 (P99)</text>
+    <text x="0" y="34" class="sublabel">首帧展开最严重掉帧时间</text>
+    <!-- Before bar: 400ms -> 480px -->
+    <rect x="230" y="4" width="480" height="18" rx="4" fill="#ef4444" opacity="0.9"/>
+    <text x="720" y="18" class="val-before">400 ms</text>
+    <!-- After bar: 42ms -> 50px -->
+    <rect x="230" y="26" width="50" height="18" rx="4" fill="#10b981"/>
+    <text x="290" y="40" class="val-after">42 ms (降低 89.5%)</text>
+  </g>
+</svg>

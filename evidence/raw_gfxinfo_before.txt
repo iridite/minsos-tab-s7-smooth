@@ -1,0 +1,29 @@
+Applications Graphics Acceleration Info:
+** Graphics info for pid 3704 [com.android.systemui] **
+
+Stats since: 68510736405ns
+Total frames rendered: 2521
+Janky frames: 745 (29.55%)
+Janky frames (legacy): 941 (37.33%)
+50th percentile: 9ms
+90th percentile: 26ms
+95th percentile: 46ms
+99th percentile: 400ms
+Number Missed Vsync: 239
+Number High input latency: 2239
+Number Slow UI thread: 536
+Number Slow bitmap uploads: 8
+Number Slow issue draw commands: 421
+Number Frame deadline missed: 745
+Number Frame deadline missed (legacy): 530
+50th gpu percentile: 2ms
+90th gpu percentile: 7ms
+95th gpu percentile: 7ms
+99th gpu percentile: 12ms
+
+Profile data in ms:
+NotificationShade/android.view.ViewRootImpl: 790 views, 1025.28 kB of render nodes
+StatusBar/android.view.ViewRootImpl: 112 views, 155.31 kB of render nodes
+NavigationBar0/android.view.ViewRootImpl: 39 views, 55.38 kB of render nodes
+Total attached Views: 961
+Total RenderNode: 1261.13 kB (used) / 1454.28 kB (capacity)

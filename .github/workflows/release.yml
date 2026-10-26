@@ -1,0 +1,28 @@
+name: Build and Release Magisk/KernelSU Module
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package KernelSU / Magisk Module
+        run: |
+          mkdir -p dist
+          cd module
+          zip -r ../dist/minsos-tab-s7-smooth-${{ github.ref_name }}.zip ./*
+          cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/minsos-tab-s7-smooth-${{ github.ref_name }}.zip
+          generate_release_notes: true

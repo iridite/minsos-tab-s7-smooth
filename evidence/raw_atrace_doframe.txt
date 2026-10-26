@@ -1,0 +1,40 @@
+Device: Samsung Galaxy Tab S7 11" Wi-Fi (SM-T870 / gts7lwifi)
+OS: MinsOS 1.2.2 (BP4A.251205.006.MinsOS-1.2.2)
+SoC: Qualcomm Snapdragon 865+ (SM8250)
+Display: 1600x2560 LTPS LCD @ 120Hz (Frame budget: 8.33ms)
+
+Trigger gesture: Downward swipe from home screen to expand NotificationShade
+
+Trace Event: Choreographer#doFrame 109702
+Total duration: 43.41 ms (Missed 5 consecutive frames at 120Hz)
+
+Detailed timestamp log:
+1747.946948: B|3704|Choreographer#doFrame 109702
+1747.946956: B|3704|input
+1747.946962: B|3704|VRI[StatusBar]@e601736
+1747.947007: B|3704|dispatchInputEvent MotionEvent MOVE deviceId=-1 source=0x1002, historySize=1
+1747.947058: B|3704|deliverInputEvent src=0x1002 eventTimeNano=1747941500000 id=0xf8dccd0b
+1747.947417: B|3704|View#onTouchEvent
+1747.948632: B|3704|notifyExpensiveFrame
+1747.948923: B|3704|Choreographer#scheduleVsyncLocked
+1747.958067: N|1808|FreezeLite|---NTX--t-/3704/-800/-800/10/3/3
+1747.958093: N|1808|Freezer|updateAppFreezeStateLSP com.android.systemui pid: 3704
+1747.958203: I|3704|updateProcessState: processState=1
+1747.961580: E|3704 (View#onTouchEvent finished, duration: 14.16ms)
+1747.962233: B|3704|traversal
+1747.966133: B|3704|VRI[NotificationShade]@5308086-relayoutWindow#first=false/resize=false/vis=true/params=true/force=false/seqId=0
+1747.966152: I|3704|relayoutSync visChange=true starting=false bufferId=0>0 seqId=0>0 winCfg=_
+1747.972880: B|3704|measure
+1747.974839: B|3704|layout
+1747.978981: B|3704|measure
+1747.981049: B|3704|draw-VRI[NotificationShade]@5308086
+1747.981149: B|3704|Record View#draw()
+1747.981893: B|3704|computePalette
+1747.981917: B|3704|computePalette
+1747.981960: B|3704|computePalette
+1747.981975: B|3704|computePalette
+1747.982458: B|3704|computePalette
+1747.982807: B|3704|postAndWait
+1747.989915: B|3704|draw-VRI[StatusBar]@e601736
+1747.989964: B|3704|postAndWait
+1747.992335: B|3704|Choreographer#doFrame 109716 (Next Frame)

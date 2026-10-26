@@ -1,0 +1,6 @@
+id=minsos-tab-s7-smooth
+name=MinsOS Tab S7 Smoothness & 120Hz Fix
+version=v1.0.0
+versionCode=100
+author=iridite
+description=Fixes notification shade frame drops on Galaxy Tab S7 (T870) running MinsOS One UI 8.5/Android 16. Locks solid 120Hz, relaxes SurfaceFlinger VSYNC offset, enables native GPU Kawase blur, and accelerates CPU Schedutil ramp-up.

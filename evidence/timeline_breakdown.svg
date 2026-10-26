@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .t-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 18px; font-weight: 700; fill: #1e293b; }
+      .t-sub { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; fill: #64748b; }
+      .t-block-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #ffffff; }
+      .t-block-sub { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 11px; fill: #f1f5f9; }
+      .desc-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #1e293b; }
+      .desc-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="840" height="320" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <text x="28" y="38" class="t-title">ATrace 实测切片：Choreographer#doFrame 109702 单帧 43.41ms 阻塞分解</text>
+  <text x="28" y="58" class="t-sub">测试场景: 桌面手势下拉 NotificationShade 首帧展开 | 120Hz 下连续丢失 5 帧 (预算 8.33ms)</text>
+
+  <!-- Timeline Bar Background -->
+  <g transform="translate(28, 80)">
+    <!-- Stage 1: Input & FreezeLite (14.61ms -> width = 14.61 / 43.41 * 784 = 263.8px) -->
+    <rect x="0" y="0" width="263.8" height="54" rx="6" fill="#f97316"/>
+    <text x="14" y="24" class="t-block-title">① 触摸输入分发 (14.6ms)</text>
+    <text x="14" y="42" class="t-block-sub">三星 FreezeLite 调度状态迁移</text>
+
+    <!-- Stage 2: WMS Relayout & Measure (15.30ms -> width = 15.30 / 43.41 * 784 = 276.3px) -->
+    <rect x="267" y="0" width="276.3" height="54" rx="6" fill="#ef4444"/>
+    <text x="281" y="24" class="t-block-title">② 窗口同步与布局重排 (15.3ms)</text>
+    <text x="281" y="42" class="t-block-sub">SurfaceSyncGroup + 790 个 View 遍历</text>
+
+    <!-- Stage 3: Palette compute & postAndWait (8.92ms -> width = 8.92 / 43.41 * 784 = 161.1px) -->
+    <rect x="546.5" y="0" width="161.1" height="54" rx="6" fill="#8b5cf6"/>
+    <text x="556" y="24" class="t-block-title">③ 同步取色计算 (8.9ms)</text>
+    <text x="556" y="42" class="t-block-sub">computePalette x5 + postAndWait</text>
+
+    <!-- Stage 4: Draw StatusBar & Finalize (4.58ms -> width = 82.6px) -->
+    <rect x="710.8" y="0" width="73.2" height="54" rx="6" fill="#06b6d4"/>
+    <text x="718" y="24" class="t-block-title">④ 绘制 (4.6ms)</text>
+    <text x="718" y="42" class="t-block-sub">StatusBar</text>
+  </g>
+
+  <!-- Explanation Cards Below -->
+  <g transform="translate(28, 160)">
+    <!-- Column 1 -->
+    <rect x="0" y="0" width="250" height="135" rx="8" fill="#fff7ed" stroke="#ffedd5"/>
+    <text x="14" y="24" class="desc-title" fill="#c2410c">① 触摸输入与冷冻状态</text>
+    <text x="14" y="48" class="desc-text">• View#onTouchEvent: 14.16ms</text>
+    <text x="14" y="68" class="desc-text">• SystemServer FreezeLite 同步调用</text>
+    <text x="14" y="88" class="desc-text">  updateAppFreezeStateLSP</text>
+    <text x="14" y="108" class="desc-text">• 触摸事件下发时挂起 UI 线程</text>
+
+    <!-- Column 2 -->
+    <rect x="267" y="0" width="260" height="135" rx="8" fill="#fef2f2" stroke="#fee2e2"/>
+    <text x="281" y="24" class="desc-title" fill="#b91c1c">② 窗口同步与树重排</text>
+    <text x="281" y="48" class="desc-text">• relayoutSync IPC 耗时 6.7ms</text>
+    <text x="281" y="68" class="desc-text">• NotificationShade 挂载 790 Views</text>
+    <text x="281" y="88" class="desc-text">• 从不可见转为可见触发二次全量</text>
+    <text x="281" y="108" class="desc-text">  measure 与 layout</text>
+
+    <!-- Column 3 -->
+    <rect x="546" y="0" width="238" height="135" rx="8" fill="#f5f3ff" stroke="#ede9fe"/>
+    <text x="560" y="24" class="desc-title" fill="#6d28d9">③ 调色板计算阻塞</text>
+    <text x="560" y="48" class="desc-text">• 在 View#draw() 内连续同步调用</text>
+    <text x="560" y="68" class="desc-text">  computePalette 达 5 次</text>
+    <text x="560" y="88" class="desc-text">• 随后触发 postAndWait 强制</text>
+    <text x="560" y="108" class="desc-text">  UI 线程死等 RenderThread</text>
+  </g>
+</svg>

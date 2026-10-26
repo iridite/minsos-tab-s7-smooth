@@ -1,0 +1,28 @@
+Applications Graphics Acceleration Info:
+** Graphics info for pid 2509 [com.android.systemui] **
+
+Stats since: 290294610688ns
+Total frames rendered: 248
+Janky frames: 39 (15.73%)
+Janky frames (legacy): 69 (27.82%)
+50th percentile: 6ms
+90th percentile: 22ms
+95th percentile: 31ms
+99th percentile: 42ms
+Number Missed Vsync: 18
+Number High input latency: 158
+Number Slow UI thread: 37
+Number Slow bitmap uploads: 0
+Number Slow issue draw commands: 13
+Number Frame deadline missed: 39
+Number Frame deadline missed (legacy): 38
+50th gpu percentile: 1ms
+90th gpu percentile: 3ms
+95th gpu percentile: 5ms
+99th gpu percentile: 8ms
+
+Key improvements:
+- Janky frame rate: 29.55% -> 15.73% (-47%)
+- 50th percentile: 9ms -> 6ms (Now comfortably fits inside 120Hz 8.33ms budget)
+- 99th percentile hitch: 400ms -> 42ms (-89.5%)
+- Slow UI thread frames: drastically reduced from 536 to 37
