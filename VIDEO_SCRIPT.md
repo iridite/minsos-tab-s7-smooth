@@ -1,6 +1,6 @@
 # 【B站视频分镜解说脚本】三星 Tab S7 移植 One UI 7 下拉掉帧深度排查与拯救指南
 
-- **项目开源仓库**：`https://github.com/<你的用户名>/minsos-tab-s7-smooth`
+- **项目开源仓库**：`https://github.com/iridite/minsos-tab-s7-smooth`
 - **上游 Issue**：[minsos1/MinsOS Issue #2](https://gitlab.com/minsos1/MinsOS/-/issues/2)
 - **推荐视频标题**：
   - *《骁龙865+真的带不动120Hz？实测扒出三星移植系统卡顿真凶！》*
@@ -18,7 +18,7 @@
 > 视频配套的所有调优模块（KernelSU/Magisk 刷入即用）、AOT 编译指南以及精简脚本均已开源，且已向上游 MinsOS 提交 Issue #2！
 
 **【置顶评论】**
-> 🔗 开源模块与一键脚本仓库：`https://github.com/<你的用户名>/minsos-tab-s7-smooth`
+> 🔗 开源模块与一键脚本仓库：`https://github.com/iridite/minsos-tab-s7-smooth`
 > 📦 小白直接去 Releases 下载 `minsos-tab-s7-smooth-v1.0.zip`，用 KernelSU 或 Magisk 本地刷入重启即可；
 > 💻 喜欢手动的同学直接看仓库 README，里面有完整的 ATrace 分析报告和一键精简脚本！
 

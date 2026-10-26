@@ -48,7 +48,7 @@
 对于已 Root 的设备，可通过终端或电脑 ADB 一行命令拉取并执行：
 ```bash
 # 自动下载并应用配置
-curl -sL https://raw.githubusercontent.com/<你的用户名>/minsos-tab-s7-smooth/main/module/service.sh | su -mm -c sh
+curl -sL https://raw.githubusercontent.com/iridite/minsos-tab-s7-smooth/main/module/service.sh | su -mm -c sh
 ```
 
 ---
